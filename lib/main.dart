@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stack_ep_ttd/bloc/counterbloc.dart';
 // import 'package:stack_ep_ttd/bloc/counterblocobserver.dart';
 import 'package:stack_ep_ttd/pages/homepage.dart';
 import 'package:stack_ep_ttd/pages/settings.dart';
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: BlocProvider(
+          create: (context) => CounterBloc(), child: const HomePage()),
     );
   }
 }

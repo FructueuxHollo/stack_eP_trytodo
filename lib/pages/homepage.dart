@@ -6,6 +6,8 @@ import 'package:stack_ep_ttd/bloc/counterevent.dart';
 import 'package:stack_ep_ttd/bloc/counterstate.dart';
 import 'package:stack_ep_ttd/main.dart';
 import 'package:stack_ep_ttd/models/counter.dart';
+import 'package:stack_ep_ttd/widgets/actionbuttons.dart';
+import 'package:stack_ep_ttd/widgets/printdata.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,63 +19,40 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CounterBloc(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: const [
-              FaIcon(FontAwesomeIcons.stackOverflow),
-              SizedBox(
-                width: 20,
-              ),
-              Text('eP Stack'),
-            ],
-          ),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    getIt<Counter>().count.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              onPressed: () {
-                BlocProvider.of<CounterBloc>(context)
-                    .add(IncrementEvent(counter: getIt<Counter>()));
-              },
-              child: const Icon(Icons.add),
-            ),
-            const SizedBox(
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: const [
+            FaIcon(FontAwesomeIcons.stackOverflow),
+            SizedBox(
               width: 20,
             ),
-            FloatingActionButton(
-              onPressed: () {
-                BlocProvider.of<CounterBloc>(context)
-                    .add(DecrementEvent(counter: getIt<Counter>()));
-              },
-              child: const Icon(Icons.remove),
-            )
+            Text('eP Stack'),
           ],
         ),
       ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  getIt<Counter>().count.toString(),
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const Printdata()
+              ],
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: ActionButtons(),
     );
   }
 }
