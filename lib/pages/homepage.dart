@@ -17,86 +17,62 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: const [
-            FaIcon(FontAwesomeIcons.stackOverflow),
-            SizedBox(
+    return BlocProvider(
+      create: (context) => CounterBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: const [
+              FaIcon(FontAwesomeIcons.stackOverflow),
+              SizedBox(
+                width: 20,
+              ),
+              Text('eP Stack'),
+            ],
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    getIt<Counter>().count.toString(),
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                BlocProvider.of<CounterBloc>(context)
+                    .add(IncrementEvent(counter: getIt<Counter>()));
+              },
+              child: const Icon(Icons.add),
+            ),
+            const SizedBox(
               width: 20,
             ),
-            Text('eP Stack'),
-          ],
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  getIt<Counter>().count.toString(),
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            ),
-            BlocProvider(
-              create: (context) => CounterBloc(),
-              child: BlocConsumer(
-                  listener: (context, state) {},
-                  builder: (context, state) {
-                    if (state is CounterFetchingState) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is CounterFetchedState) {
-                      return Center(
-                          child: SizedBox(
-                        width: 300,
-                        height: 200,
-                        child: Text(
-                          state.data,
-                          overflow: TextOverflow.visible,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ));
-                    } else {
-                      return const Center(
-                        child: Text('Something went wrong'),
-                      );
-                    }
-                  }),
+            FloatingActionButton(
+              onPressed: () {
+                BlocProvider.of<CounterBloc>(context)
+                    .add(DecrementEvent(counter: getIt<Counter>()));
+              },
+              child: const Icon(Icons.remove),
             )
           ],
         ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              BlocProvider.of<CounterBloc>(context)
-                  .add(IncrementEvent(counter: getIt<Counter>()));
-            },
-            child: const Icon(Icons.add),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              BlocProvider.of<CounterBloc>(context)
-                  .add(DecrementEvent(counter: getIt<Counter>()));
-            },
-            child: const Icon(Icons.remove),
-          )
-        ],
       ),
     );
   }
